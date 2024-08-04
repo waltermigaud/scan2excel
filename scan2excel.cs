@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using OfficeOpenXml;
 
@@ -8,24 +9,82 @@ public class MainForm : Form
     private Label myLabel;
     private TextBox myTextBox;
     private Button buttonExport;
+    private Button buttonReportDaily;
+    private Button buttonReportWeekly;
+    private Button buttonReportMonthly;
+    private Button buttonInfo;
+    private Button buttonSettings;
+    private Button buttonLicense;
 
     public MainForm()
     {
-        myLabel = new Label { Text = "Scan Status", Location = new System.Drawing.Point(10, 10) };
-        myTextBox = new TextBox { Location = new System.Drawing.Point(10, 40) };
-        buttonExport = new Button { Text = "Export", Location = new System.Drawing.Point(10, 70) };
+        // Initialize controls
+        myLabel = new Label { Text = "Scan", Location = new System.Drawing.Point(10, 10) };
+        myTextBox = new TextBox { Location = new System.Drawing.Point(10, 40), Width = 200 };
+        buttonExport = new Button { Text = "Export", Location = new System.Drawing.Point(10, 70), Width = 100 };
 
+        // Initialize new buttons
+        buttonReportDaily = new Button { Text = "Report Daily", Size = new System.Drawing.Size(100, 30) };
+        buttonReportWeekly = new Button { Text = "Report Weekly", Size = new System.Drawing.Size(100, 30) };
+        buttonReportMonthly = new Button { Text = "Report Monthly", Size = new System.Drawing.Size(100, 30) };
+        buttonInfo = new Button { Text = "Info", Size = new System.Drawing.Size(100, 30) };
+        buttonSettings = new Button { Text = "Settings", Size = new System.Drawing.Size(100, 30) };
+        buttonLicense = new Button { Text = "License", Size = new System.Drawing.Size(100, 30) };
+
+        // Set initial locations for the new buttons
+        buttonReportDaily.Location = new System.Drawing.Point(this.ClientSize.Width - buttonReportDaily.Width - 10, this.ClientSize.Height - buttonReportDaily.Height - 90);
+        buttonReportWeekly.Location = new System.Drawing.Point(this.ClientSize.Width - buttonReportWeekly.Width - 10, this.ClientSize.Height - buttonReportWeekly.Height - 50);
+        buttonReportMonthly.Location = new System.Drawing.Point(this.ClientSize.Width - buttonReportMonthly.Width - 10, this.ClientSize.Height - buttonReportMonthly.Height - 10);
+        buttonLicense.Location = new System.Drawing.Point(10, this.ClientSize.Height - buttonLicense.Height - 90);
+        buttonInfo.Location = new System.Drawing.Point(10, this.ClientSize.Height - buttonInfo.Height - 50);
+        buttonSettings.Location = new System.Drawing.Point(10, this.ClientSize.Height - buttonSettings.Height - 10);
+
+        // Anchor buttons to the bottom right
+        buttonReportDaily.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+        buttonReportWeekly.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+        buttonReportMonthly.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+        buttonLicense.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+        buttonInfo.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+        buttonSettings.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+
+        // Add event handlers
         buttonExport.Click += ButtonExport_Click;
+        buttonLicense.Click += ButtonLicense_Click;
+        buttonInfo.Click += ButtonInfo_Click;
 
+        // Add controls to the form
         Controls.Add(myLabel);
         Controls.Add(myTextBox);
         Controls.Add(buttonExport);
+        Controls.Add(buttonReportDaily);
+        Controls.Add(buttonReportWeekly);
+        Controls.Add(buttonReportMonthly);
+        Controls.Add(buttonLicense);
+        Controls.Add(buttonInfo);
+        Controls.Add(buttonSettings);
+
+        // Set form properties
+        this.Size = new System.Drawing.Size(400, 450); // Ensure the form is large enough to display all controls
     }
 
     private void ButtonExport_Click(object? sender, EventArgs e)
     {
         string data = myTextBox.Text; // Get the text from the textbox.
-        SaveDataToExcel(data); // Call the method to save the data to Excel.
+        if (IsValidInput(data))
+        {
+            SaveDataToExcel(data); // Call the method to save the data to Excel.
+        }
+        else
+        {
+            MessageBox.Show("Invalid Input. No special characters allowed."); // Show the message box if input is invalid.
+        }
+    }
+
+    private bool IsValidInput(string input)
+    {
+        // Regular expression to match only alphanumeric characters and spaces.
+        Regex regex = new Regex("^[a-zA-Z0-9 ]*$");
+        return regex.IsMatch(input);
     }
 
     private void SaveDataToExcel(string data)
@@ -85,6 +144,54 @@ public class MainForm : Form
             package.Save(); // Save the changes to the Excel file.
             MessageBox.Show("Data exported to " + filePath); // Show a message box indicating the data has been exported.
         }
+    }
+
+    private void ButtonLicense_Click(object? sender, EventArgs e)
+    {
+        // Create a new form to display the license
+        Form licenseForm = new Form
+        {
+            Text = "License",
+            Size = new System.Drawing.Size(400, 300)
+        };
+
+        // Create a label to display the license text
+        Label licenseLabel = new Label
+        {
+            Text = "GNU GENERAL PUBLIC LICENSE\n Version 3, 29 June 2007\n Walter Migaud\n https://github.com/waltermigaud/scan2excel/ \n This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.",
+            Dock = DockStyle.Fill,
+            TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        };
+
+        // Add the label to the new form
+        licenseForm.Controls.Add(licenseLabel);
+
+        // Show the new form
+        licenseForm.ShowDialog();
+    }
+
+    private void ButtonInfo_Click(object? sender, EventArgs e)
+    {
+        // Create a new form to display the info
+        Form infoForm = new Form
+        {
+            Text = "Info",
+            Size = new System.Drawing.Size(400, 300)
+        };
+
+        // Create a label to display the info text
+        Label infoLabel = new Label
+        {
+            Text = "This program aims to provide a feature for connecting tag scanning to a local or networked excel document with a modest amount of customizable functionality and reporting options. Different iterations addressing concerns of functionality and security are in development. For custom solutions and features please contact me at my github profilename, at outlook. August 4, 2024",
+            Dock = DockStyle.Fill,
+            TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        };
+
+        // Add the label to the new form
+        infoForm.Controls.Add(infoLabel);
+
+        // Show the new form
+        infoForm.ShowDialog();
     }
 
     [STAThread]

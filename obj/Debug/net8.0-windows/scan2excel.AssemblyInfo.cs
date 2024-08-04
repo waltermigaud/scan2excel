@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("scan2excel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f59d415b33a7e1c2e55e49499e254c6257332a7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7eaed7f22cd1e288986142d0262777ad61f1434")]
 [assembly: System.Reflection.AssemblyProductAttribute("scan2excel")]
 [assembly: System.Reflection.AssemblyTitleAttribute("scan2excel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
