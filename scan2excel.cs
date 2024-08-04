@@ -182,7 +182,7 @@ public class MainForm : Form
         // Create a label to display the info text
         Label infoLabel = new Label
         {
-            Text = "This program aims to provide a feature for connecting tag scanning to a local or networked excel document with a modest amount of customizable functionality and reporting options. Different iterations addressing concerns of functionality and security are in development. For custom solutions and features please contact me at my github profilename, at outlook. August 4, 2024",
+            Text = "This program aims to provide a feature for connecting tag scanning to a local or networked excel document with a modest amount of customizable functionality and reporting. Different iterations addressing concerns of functionality and security are in development. For custom solutions and features please contact me at my github profilename, at outlook. August 4, 2024",
             Dock = DockStyle.Fill,
             TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         };
