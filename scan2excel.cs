@@ -59,14 +59,42 @@ public class MainForm : Form
 
     private void SaveDataToExcel(string data)
     {
-        using (ExcelPackage package = new ExcelPackage())
+        string filePath = @"E:\DVISTLtest.xlsx";
+        FileInfo fileInfo = new FileInfo(filePath);
+
+        using (ExcelPackage package = new ExcelPackage(fileInfo))
         {
-            ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("REPO");
-            worksheet.Cells[1, 1].Value = "Data";
-            worksheet.Cells[2, 1].Value = data;
-            // Save the package to a file
-            string filePath = @"E:\DVISTLtest.xlsx";
-            package.SaveAs(new FileInfo(filePath));
+            ExcelWorksheet worksheet = package.Workbook.Worksheets["REPO"];
+            if (worksheet == null)
+            {
+                worksheet = package.Workbook.Worksheets.Add("REPO");
+                worksheet.Cells[1, 1].Value = "Data";
+                worksheet.Cells[1, 2].Value = "Count";
+            }
+
+            bool matchFound = false;
+            int rowCount = worksheet.Dimension?.Rows ?? 0;
+
+            for (int row = 2; row <= rowCount; row++)
+            {
+                if (worksheet.Cells[row, 1].Text == data)
+                {
+                    double currentValue = worksheet.Cells[row, 2].GetValue<double>();
+                    worksheet.Cells[row, 2].Value = (int)currentValue + 1;
+                    matchFound = true;
+                    break;
+                }
+            }
+
+            if (!matchFound)
+            {
+                int newRow = rowCount + 1;
+                worksheet.Cells[newRow, 1].Value = data;
+                worksheet.Cells[newRow, 2].Value = 1;
+            }
+
+            // Save the package to the file
+            package.Save();
             MessageBox.Show("Data exported to " + filePath);
         }
     }

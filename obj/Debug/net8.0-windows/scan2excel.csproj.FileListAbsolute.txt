@@ -26,3 +26,4 @@ C:\Users\walte\Desktop\REPO\scan2excel\obj\Debug\net8.0-windows\refint\scan2exce
 C:\Users\walte\Desktop\REPO\scan2excel\obj\Debug\net8.0-windows\scan2excel.pdb
 C:\Users\walte\Desktop\REPO\scan2excel\obj\Debug\net8.0-windows\scan2excel.genruntimeconfig.cache
 C:\Users\walte\Desktop\REPO\scan2excel\obj\Debug\net8.0-windows\ref\scan2excel.dll
+C:\Users\walte\Desktop\REPO\scan2excel\obj\Debug\net8.0-windows\scan2excel.sourcelink.json
